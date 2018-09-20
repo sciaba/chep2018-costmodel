@@ -1,0 +1,100 @@
+\documentclass{webofc}
+\usepackage[varg]{txfonts}   % Web of Conferences font
+\begin{document}
+\title{System Performance and Cost Modelling in LHC computing}
+\author{\firstname{Catherine} \lastname{Biscarat}\inst{1} \and
+        \firstname{Tommaso} \lastname{Boccali}\inst{2} \and
+        \firstname{Daniele} \lastname{Bonacorsi}\inst{3} \and
+        \firstname{Concezio} \lastname{Bozzi}\inst{4,5}\fnsep \and
+        \firstname{Raul} \lastname{Cardoso Lopes}\inst{6} \and
+        \firstname{Davide} \lastname{Costanzo}\inst{7} \and
+        \firstname{Dirk} \lastname{Duellmann}\inst{4} \and
+        \firstname{Johannes} \lastname{Elmsheuser}\inst{8} \and
+        \firstname{Eric} \lastname{Fede}\inst{9} \and
+        \firstname{José} \lastname{Flix Molina}\inst{10} \and
+        \firstname{Alessandra} \lastname{Forti}\inst{11} \and
+        \firstname{Martin} \lastname{Gasthuber}\inst{12} \and
+        \firstname{Domenico} \lastname{Giordano}\inst{4} \and
+        \firstname{Costin} \lastname{Grigoras}\inst{4} \and
+        \firstname{Jan} \lastname{Iven}\inst{4} \and
+        \firstname{Michel} \lastname{Jouvin}\inst{13} \and
+        \firstname{Yves} \lastname{Kemp}\inst{12} \and
+        \firstname{David} \lastname{Lange}\inst{14} \and
+        \firstname{Helge} \lastname{Meinhard}\inst{4} \and
+        \firstname{Michele} \lastname{Michelotto}\inst{15} \and
+        \firstname{Gareth Douglas} \lastname{Roy}\inst{16} \and
+        \firstname{Andrew} \lastname{Sansum}\inst{17} \and
+        \firstname{Andrea} \lastname{Sartirana}\inst{18} \and
+        \firstname{Markus} \lastname{Schulz}\inst{4} \and
+        \firstname{Andrea} \lastname{Sciab\`a}\inst{4} \and
+        \firstname{Oxana} \lastname{Smirnova}\inst{19} \and
+        \firstname{Graeme} \lastname{Stewart}\inst{4} \and
+        \firstname{Andrea} \lastname{Valassi}\inst{4} \and
+        \firstname{Renaud} \lastname{Vernet}\inst{20} \and
+        \firstname{Torre} \lastname{Wenaus}\inst{8} \and
+        \firstname{Frank} \lastname{Wuerthwein}\inst{21}
+}
+
+\institute{LPSC Grenoble, IN2P3/CNRS\and
+           INFN Sezione di Pisa\and
+           University of Bologna \and
+           CERN \and
+           INFN Sezione di Ferrara \and
+           Brunel University \and
+           University of Sheffield \and
+           Brookhaven National Laboratory \and
+           CNRS/IN2P3/LAPP \and
+           Centro de Investigaciones Energ\'eticas Medioambientales y Tecnol\'ogicas \and
+           University of Manchester \and
+           Deutsches Elektronen-Synchrotron \and
+           Université Paris-Saclay \and
+           Princeton University \and
+           Universit\`a e INFN, Padova \and
+           University of Glasgow \and
+           STFC \and
+           Centre National de la Recherche Scientifique \and
+           Lund University \and
+           Centre de Calcul IN2P3 \and
+           Univ. of California San Diego
+          }
+
+\abstract{The increase in the scale of LHC computing expected for Run
+  3 and even more so for Run 4 (HL-LHC) over the next ten years will
+  certainly require radical changes to the computing models and the
+  data processing of the LHC experiments. Translating the requirements
+  of the physics programmes into computing resource needs is a
+  complicated process and subject to significant uncertainties. For
+  this reason, WLCG has established a working group to develop
+  methodologies and tools intended to characterize the LHC workloads,
+  better understand their interaction with the computing
+  infrastructure, calculate their cost in terms of resources and
+  expenditure and assist experiments, sites and the WLCG project in
+  the evaluation of their future choices.  This working group started
+  in November 2017 and has about 30 active participants representing
+  experiments and sites. In this contribution we expose the
+  activities, the results achieved and the future directions.}
+
+\maketitle
+
+%Sciaba
+\input{Introduction}
+
+%Markus
+\input{Metrics}
+
+%Sartirana
+\input{Resources}
+
+%Renaud
+\input{Sitecost}
+
+%Markus
+\input{Hllhc}
+
+%Sciaba
+\input{Conclusions}
+
+\input{Bibliography}
+
+\end{document}
+
