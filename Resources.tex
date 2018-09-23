@@ -1,8 +1,66 @@
-\section{Resource estimation}
-Explain why we need a framework to calculate resource estimates.
+\section{Resource estimation $\leq 1$ page.}
 
-Describe the common framework derived by Ken Bloom.
+\subsection{Motivations}
 
-Describe the work needed to be utilised by other experiments.
+In order to sensibly plan their activity and estimate their costs,
+experiments need to translate the requirements of their physics
+programs into computing resources needs. They thus need a modeling
+tool that takes as input the details of the physics activity
+%- such as the amount of data from the detector, the fraction of MC
+%events needed, the number of events to be analyzed, etc. - 
+and the features of the computing model 
+%- e.g. the event size, the
+%way data is replicated and distributed, the software efficiency, etc -
+and outputs the amount and characteristics of the computing resources
+required.
 
-$\leq 1$ page.
+Currently, all LHC experiments have their own tools for this task,
+often some complex spreadsheets. Our purpose is to provide a common
+framework that could standardize, generalize and possibly improve what
+each experiment do, in its own specific way, today. This framework
+should be as generic and customable as possible, it should define a
+schema for the parameters that describe the expected activity and the
+characteristics of the computing model, and provide some standard
+calculations on these parameters.  Besides providing the experiment
+with a standardized way to compute their needs, such framework will
+allow us to easily play with different computing model scenarios and
+explore potential gains.
+
+\subsection{Current Status}
+
+A first version of the framework \cite{ourresmodel} was obtained by
+forking, refactoring and slightly generalizing some python code
+\cite{cmsresmodel} used by CMS to estimate HL-LHC requirements.
+It is a set of modules and scripts that reads some json inputs
+files and produces plots and tables with the required storage and CPU
+resources. Inputs are loaded hierarchically so that we can easily
+overwrite a generic set of definitions with different special
+scenarios. This is handled by the classes and functions defined in the
+{\it ResourceModel} module. Parameters include:
+\begin{itemize}
+\item LHC parameters: trigger rates, live fractions, shutdown years, etc.
+\item Computing model: event sizes and processing times, software improvement factors, etc.
+\item Storage model: numbers of versions, replicas, etc.
+\item Infrastructure: capacity model, T1 disk and tape, etc.
+\end{itemize}
+The framework computes the number of data and montecarlo events
+per year ({\it EventModel} module) using the LHC parameters and some
+physics information like the required montecarlo/data ratio. The
+functions defined in {\it CPUModel} and {\it StorageModel} modules,
+then, translate the number of events into CPU and Storage requirements
+for the different activities (reconstruction, montecarlo, analysis).
+The module {\it ModelOut} defines functions to create plots and tables.
+
+\subsection{Future Work}
+
+This first version of the framework elicited strong interest from
+other LHC experiments ad has been agreed as a common basis for future
+development. Generalizing it to all LHC experiments will require
+rewriting some of the most CMS-specific parts and making the
+parameters schema more flexible.
+
+Besides the inclusion of all LHC experiments, other lines of
+development have been proposed.  For example, the model should be
+allowed to have generic time granularity (it currently only deals with
+yearly data) and should include an estimation of network resources.
+
