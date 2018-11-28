@@ -1,8 +1,198 @@
 \section{HL-LHC and areas of improvement}
+Since the start of the LHC the community constantly improved the
+throughput of the main workflows; however, studies conducted by the
+Understanding Performance Team and the Cost and this working group
+still found several areas in which potential improvements could be
+achieved~\cite{improvements}.
 
-Describe the potential gains achievable on a medium-long term.
+\subsection{Compiler and software improvements}
+WLCG sites provide a variety of CPU models, and almost all code is
+built to run on the oldest available architectures in the system. This
+and recent advancements in compiler techniques motivated further
+studies.
 
-Describe the recent studies of caching as an example of an area for
-R\&D.
+From studies conducted on current GEANT simulation, reconstruction and
+NLO generator code, gains by compiler and link-based optimisations are
+around 20-25\%. This includes the compilation of the code for
+individual target CPUs, the use of Intel’s commercial compiler and the
+use of feedback-directed optimisation (AutoFDO from Google and
+Intel). Attempts of compiler-based vectorisation of current production
+codes showed none or minimal improvements. Reducing the overhead of
+shared libraries by building large libraries resulted in significant
+gains on older architectures (e.g., a 10\% improvement on Ivy Bridge
+for the ATLAS simulation code).  Comparisons between the Intel
+compiler and current gcc versions showed no clear differences. It has
+to be noted that the use of feedback-directed optimisation requires
+that the objects are build statically, which for some of the LHC
+codebase is not trivial.
 
-$\leq 2$ pages.
+From profiling the code and detailed analysis of the dynamic use of
+memory allocation, it is known that the current code spends up to 25\%
+of the time on memory/object management, due to the frequent creation
+and destruction of small objects~\cite{fomtools}. A 60-90\% of
+allocations exists for less than $100\mu$s and are smaller than 64
+Bytes.  By using more adequate techniques and strategies for object
+management, such as object pools, libs for large and static vectors,
+this could be reduced to less than 10\% with relative minor code
+refactorisation. At the same time the data structure layout can be
+improved for more efficient utilisation of caches and improved memory
+access.
+
+The current HEP code executes on modern cores significantly less than
+2 instructions per cycle (0.8-1.5) . With the large vector registers
+provided by current cores the theoretical limit can be above 20
+instructions/cycle for code that can be completely
+vectorised. However, tuned complex code for HPC systems can reach
+values of about 4. This can be seen as an upper limit for our code
+base. Approaching this level of utilisation requires at least a change
+of the used data structures and a re-implementation/factorisation of
+the algorithms used in the HEP code base. This is therefore best taken
+into consideration when new algorithms are designed and implemented.
+
+Gains from new algorithms and the impact of new detector components
+can’t be treated here. As the development of the new, cellular
+automaton based, HLT track reconstruction code for the ALICE HLT has
+shown, large factors O(100) can in some cases be achieved~\cite{rohr}.
+
+\subsection{Storage}
+The LHC community has recently agreed to a scenario where managed
+storage is consolidated at a few, very large sites (the ``data lake'')
+as the most promising to achieve significant cost savings.
+
+For what concerns operational effort, the 2015 WLCG site
+survey~\cite{survey} showed that on average Tier-1 sites require 2.5
+FTEs for operating storage and Tier-2 sotes 0.75 FTEs, with a weak
+dependence on the amount of storage (+15\% FTEs for doubling the
+storage). By concentrating managed storage at a few sites and using
+only disk caches (much simpler to manage) at most sites, one can
+estimate a decrease of the overall number of FTE for storage
+operations from around 100 to around 60, that is, a 40\% reduction.
+
+The vast majority of disk ($~80\%$) is used for data formats used for
+analysis. Data popularity studies show that on average datasets exist
+at about 2 sites and are accessed less than 10 times over a period of
+six months, with most accesses happening in the first month.  We can
+argue that data needs to be stored only once at the large storage
+sites, and just be temporarily cached as needed depending on the
+client load. Less popular data may be completely purged from disk and
+kept on tape.
+
+How much saving can be expected depends on the retention strategy and
+the use of hierarchical storage (with tape costing about 1/4 than disk
+storage). The savings from replacing some amount of disk with tape are
+partially offset by the need of more tape drives and added complexity
+in the data migration (the latter assumed not to be substantial due to
+the sophistication of the current data management systems).
+
+Again, analysis of popularity data and storage system monitoring
+indicates that only a small fraction of the produced data is active at
+any time and a significant fraction (15-20\%) of the data could be
+moved to a different storage layer.
+
+The concentration of data at a few sites requires to limit the impact
+of bandwidth limitations and latency on the throughput of
+applications.  We conducted measurements of the impact of latency to
+the throughput of various workloads leading to the understanding that
+for latencies up to 25ms the reduction of throughput can be limited to
+5\% when using Xcache as an additional layer. Some workloads already
+manage latency on the client level very well. The results are
+summarised in table~\ref{tab:latency}.
+\begin{table}
+  \centering
+  \caption{ Summary of Cache and Latency Studies}
+  \label{tab:latency}
+  \begin{tabular}{lllll}
+    \hline
+    \textbf{Workload} & \textbf{Condition} & \textbf{Latency (ms)} & \textbf{Method} & \textbf{Rel. time}  \\\hline
+    ATLAS Digi-Reco & data on node & 0 & running local & 1 \\ 
+    ATLAS Digi-Reco & data remote & ~25 & running local & 1.9 \\ 
+    ATLAS Digi-Reco & data remote, empty cache & ~25 & Xcache & 1.08 \\ 
+    ATLAS Digi-Reco & data remote, pop. cache & ~25 & Xcache & 1.04 \\ 
+    ATLAS Derivation & data on node & 0 & running local & 1 \\ 
+    ATLAS Derivation & data on EOS & < 1 & running local  & 1.02 \\ 
+    ATLAS Derivation & data remote & ~25 & running local & 8.3 \\ 
+    ATLAS Derivation & data remote, empty cache & ~25 & Xcache & 1.05 \\ 
+    ATLAS Derivation & data remote, pop. cache & ~25 & Xcache & 1.03 \\
+    CMS Digi-Reco & data local & 0 & added latency & 1 \\
+    CMS Digi-Reco & data local & 5 & added latency & 1.01 \\
+    CMS Digi-Reco & data local & 10 & added latency & 1.04 \\
+    CMS Digi-Reco & data local & 20 & added latency & 1.11 \\
+    CMS Digi-Reco & data local & 50 & added latency & 1.24 \\\hline
+  \end{tabular}
+\end{table}
+
+Data is also replicated within storage systems to ensure a high degree
+of reliability, either by replication (more performant but expensive)
+or some form of error encoding (cheaper but less performant). Even
+larger savings can be achieved by not using storage redundancy at all
+and re-staging from tape, or possibly even regenerating, any lost
+data.
+
+Based on the observed disk failure rate of an individual disk in the
+CERN EOS system, which is about 1\% per year, the relative total cost
+of storage and computing at CERN (around 4 HS06/TB), the amount of CPU
+time to generate AOD events ($\sim 850$ HS06$\times s$) and their size
+($\sim 400$ kB), one can naively estimate that the computing cost to
+re-generate the AOD data lost to disk failures is $\sim 20\%$ of the
+cost to make the storage that contained it fully redundant.
+
+In reality, most of the times the lost data would be replicated
+elsewhere, although it would not be the case for intermediate data
+sets; one can conservatively estimate that 30-50\% of the disc costs
+can be saved. For this approach to be efficient and effective the
+process of recreating individual files has to be automated, which is
+highly desirable since other failure modes lead to data loss on a
+comparable scale.
+
+\subsection{Gains from improvements in operations}
+Scheduling inefficiencies in WLCG arise from many reasons. Either due
+to a mismatch between cores in a system and memory requirements,
+mismatch between requested cores and cores grouped on nodes (the
+tessellation problem), batch system inefficiencies, pilot service
+inefficiencies, delays due to data staging, I/O waits etc.. These
+inefficiencies are different for different sites and workloads. Site
+managers have identified some of these problems and estimates range
+from 20\% - 30\% of resources being lost due to one or another
+scheduling inefficiency. It has been shown that with advanced
+backfilling and more complex job placement strategies, efficiencies
+above 90\% can be reached, at the expense of higher complexity of site
+and experiment workload management systems. To efficiently use short
+usage windows the granularity of workloads has to be
+increased. Another source of scheduling inefficiencies stems from
+breaking the processing chains from raw data to data analysis objects
+into several individual steps that exchange data via
+files. Experiments have started to chain these steps, but often still
+rely on intermediate local files. Especially when parallel processing
+threads/processes write individual files, the merging steps create
+inefficiencies, as they are single threaded. By using shared writers
+these inefficiencies can be reduced. The overall impact is difficult
+to measure, but from ATLAS pileup/digitisation/reconstruction chains
+activity logs it can be estimated to be about 5\%.
+
+Losses due to intermittent job failures are for complex workflows
+unavoidable. Currently most of the steps can recover from failure with
+the help of automated retry and failover mechanisms. Nevertheless
+complete jobs are sometimes run up to 20 times before successful
+completion. The overall loss in walltime due to job failures is
+between 10 and 15\%. Improved procedures to make jobs more resilience
+or fail very early can reduce these losses, but will not eliminate
+them.
+
+Table~\ref{tab:pgain} summarises the different identified potential gains.
+
+\begin{table}
+  \centering
+  \caption{Estimated potential gains and associate efforts}
+  \label{tab:pgain}
+  \begin{tabular}{llll}
+    \hline
+    \textbf{Change} & \textbf{Effort: Sites} & \textbf{Effort: Users} & \textbf{Potential Gain}  \\\hline
+    Managed storage only at sites & some on large sites & little & -40\% ops effort \\
+    Reduced data redundancy & some on larger sites & some & -30-50\% disk cost \\
+    Scheduling and site inefficiencies & some & some & +10-20\% CPU  \\
+    Reduced job failure rates & little & some - massive & +5-10\% CPU \\
+    Compiler and build improvements & none &  little - some & +15-20\% CPU \\
+    Improved memory usage & none & some &  +10-15\% CPU \\ 
+    Exploiting modern CPU arch. &  none & massive & +100\% CPU \\\hline
+  \end{tabular}
+\end{table}

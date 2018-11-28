@@ -1,62 +1,95 @@
-\section{Site cost estimation $\leq 1$ page.}
+\section{Site cost estimation}
 %Explain the importance of a common method to estimate the costs for sites
 %given the resource needs of the experiments.
 %Describe Renaud's model and future perspectives for this area.
 
 \subsection{Context}
-%The IT resources deployed in the data centres contributing to WLCG are an important source of expense for funding agencies.
-%With the expected amount of data to be recorded at HL-LHC, it is highly desirable for WLCG to estimate the
-%amount of IT resources that will be available for data processing in sites over time.
-%Simple projections from the current trends in the IT market, assuming a constant budget in sites over time, indicate that
-%the available amount of resources across the WLCG will not be sufficient at all to process the HL-LHC data (reference?).
-%Therefore, it becomes clear that, unless technology revolutions happen in the meantime,
-%LHC experiments will need to make a different usage of IT resources that sites will deploy.
+%The IT resources deployed in the data centres contributing to WLCG
+%are an important source of expense for funding agencies.  With the
+%expected amount of data to be recorded at HL-LHC, it is highly
+%desirable for WLCG to estimate the amount of IT resources that will
+%be available for data processing in sites over time.  Simple
+%projections from the current trends in the IT market, assuming a
+%constant budget in sites over time, indicate that the available
+%amount of resources across the WLCG will not be sufficient at all to
+%process the HL-LHC data (reference?).  Therefore, it becomes clear
+%that, unless technology revolutions happen in the meantime, LHC
+%experiments will need to make a different usage of IT resources that
+%sites will deploy.
 
-The purpose of site cost estimation is to understand and measure, at a global scale,
-what the data centres typical expenses are, and predict what they may be in years from now.
-The approach chosen in this context is to model those expenses, taking into account the diversity of national contexts
-across sites in terms of funding, procurement procedures, and local market conditions.
-These results will help experiments plan new computing strategies that
-will improve the cost-effectiveness of their resource usage.
+The purpose of site cost estimation is to understand and measure, at a
+global scale, what the data centres typical expenses are, and predict
+what they may be in years from now.  The approach chosen in this
+context is to model those expenses, taking into account the diversity
+of national contexts across sites in terms of funding, procurement
+procedures, and local market conditions.  These results will help
+experiments plan new computing strategies that will improve the
+cost-effectiveness of their resource usage.
 
 \subsection{First results}
 
-Some of the first elements to address are the diversity of expenses across sites, and the definition of what these
-expenses are.
-A simple and quick exercice was made by four candidate sites, aiming to get a first estimate of the financial cost to run
-a given workflow and to store a given amount of data, in terms of IT resources and power consumption.
-The answers to this exercice happened to be significantly different from site to site, up to a factor of 2.
-The reasons were found to originate from different aspects: the intrinsic variety of costs, the measurement method, and
-the understanding of what a given metric means.
+Some of the first elements to address are the diversity of expenses
+across sites, and the definition of what these expenses are.  A simple
+and quick exercise was made by four candidate sites, aiming to get a
+first estimate of the financial cost to run a given workflow and to
+store a given amount of data, in terms of IT resources and power
+consumption.  The answers to this exercise happened to be
+significantly different from site to site, up to a factor of 2.  The
+reasons were found to originate from different aspects: the intrinsic
+variety of costs, the measurement method, and the understanding of
+what a given metric means.
 
-Those results showed clearly the need of a consolidated and common model and method to measure costs across
-WLCG data centres.
-Here are a few examples to illustrate this point. One may consider the cost of a server providing a given capacity,
-including (or not) the equipement that is shipped with it (rack, switch, adaptor etc.).
-One may also consider that one capacity unit of tape storage includes (or not) the investments made in
-library, drives, disk cache etc.
-that are needed for such system to work properly.
-Finally, the measurement of an electrical consumption may include (or not) the Power Usage Effectiveness
-of the data center
-in order to take into account UPS or HVAC system contributions to the final power bill.
+Those results showed clearly the need of a consolidated and common
+model and method to measure costs across WLCG data centres.  Here are
+a few examples to illustrate this point. One may consider the cost of
+a server providing a given capacity, including (or not) the equipement
+that is shipped with it (rack, switch, adaptor etc.).  One may also
+consider that one capacity unit of tape storage includes (or not) the
+investments made in library, drives, disk cache etc.  that are needed
+for such system to work properly.  Finally, the measurement of an
+electrical consumption may include (or not) the Power Usage
+Effectiveness of the data centre in order to take into account UPS or
+HVAC system contributions to the final power bill.
 
 Consequently, it becomes fundamental in the context of site cost
-estimation to establish precise definition of the cost-related metrics in order to build a reliable model.
+estimation to establish precise definition of the cost-related metrics
+in order to build a reliable model.
 
 \subsection{Next steps}
 
-A preliminary attempt to address data center resource TCO through cost modeling was shown in reference~\cite{costmodel}.
-This model assumes that a data centre invests year after year a constant budget in its following assets:
-batch system, disk storage and tape system capacities.
-If this hypothesis is satisfied (even roughly), one can show that budget ($B$) and available capacity ($K$) over time are bound
-together by a quantity ($c^*$) that depends on hardware cost evolution and lifetime. This model however does not address all the components of a TCO, like manpower.
+A preliminary attempt to address data centre resource TCO through cost
+modeling was shown in reference~\cite{costmodel}.  This model assumes
+that a data centre invests year after year a constant budget in the
+following assets: batch system, disk storage and tape system
+capacities.  If this hypothesis is satisfied (even roughly), one can
+show that budget ($B$) and available capacity ($K$) over time are
+bound together by a quantity ($c^*$) that depends on hardware cost
+evolution and lifetime:
 
 \begin{equation}
     B (t) = K (t) \times c^* (t)
     \label{eq:costmodel}
 \end{equation}
 
-Site cost studies may leverage this model to estimate the financial impact of a variation in the usage that experiments
-make of data centre IT resources.
-But the quantity $c^*$ may differ significantly from site to site, so an extension of this model at global scale
-will have to take into account as many as site-dependent parameters as possible to establish $c^*$.
+In the case where hardware costs by unit of capacity decrease
+exponentially over time with a rate $r$ (e.g. 0.2 for a 20\% yearly
+decrease) and hardware is replaced after $\tau$ years, one can show
+that
+
+\begin{equation}
+c^*(t)=c(t)\frac{r}{1-(1-r)^\tau}
+\end{equation}
+and the time evolution of the site capacity for a flat budget turns
+out to be exponentially increasing.
+
+This model however does not address all the components of a TCO, like
+manpower.  Site cost studies may leverage this model to estimate the
+financial impact of a variation in the usage that experiments make of
+data centre IT resources.  But the quantity $c^*$ may differ
+significantly from site to site, so an extension of this model at
+global scale will have to take into account as many as site-dependent
+parameters as possible to establish $c^*$.
+
+In order to get a better idea of the variations of the expenditure at
+different sites, a survey is being conducted at all Tier-1 sites,
+although the results are not yet available.

@@ -1,10 +1,10 @@
-\section{Resource estimation $\leq 1$ page.}
+\section{Resource estimation}
 
 \subsection{Motivations}
 
 In order to sensibly plan their activity and estimate their costs,
 experiments need to translate the requirements of their physics
-programs into computing resources needs. They thus need a modeling
+programmes into computing resources needs. They thus need a modelling
 tool that takes as input the details of the physics activity
 %- such as the amount of data from the detector, the fraction of MC
 %events needed, the number of events to be analyzed, etc. - 
@@ -16,23 +16,23 @@ required.
 
 Currently, all LHC experiments have their own tools for this task,
 often some complex spreadsheets. Our purpose is to provide a common
-framework that could standardize, generalize and possibly improve what
-each experiment do, in its own specific way, today. This framework
+framework that could standardise, generalise and possibly improve what
+each experiment does, in its own specific way, today. This framework
 should be as generic and customable as possible, it should define a
 schema for the parameters that describe the expected activity and the
 characteristics of the computing model, and provide some standard
 calculations on these parameters.  Besides providing the experiment
-with a standardized way to compute their needs, such framework will
+with a standardised way to compute their needs, such framework will
 allow us to easily play with different computing model scenarios and
 explore potential gains.
 
 \subsection{Current Status}
 
 A first version of the framework \cite{ourresmodel} was obtained by
-forking, refactoring and slightly generalizing some python code
-\cite{cmsresmodel} used by CMS to estimate HL-LHC requirements.
-It is a set of modules and scripts that reads some json inputs
-files and produces plots and tables with the required storage and CPU
+forking, refactoring and slightly generalising some code
+used by CMS to estimate HL-LHC requirements~\cite{cmsresmodel}. It is
+a set of modules and scripts that reads some inputs files and
+produces plots and tables with the required storage and CPU
 resources. Inputs are loaded hierarchically so that we can easily
 overwrite a generic set of definitions with different special
 scenarios. This is handled by the classes and functions defined in the
@@ -43,7 +43,7 @@ scenarios. This is handled by the classes and functions defined in the
 \item Storage model: numbers of versions, replicas, etc.
 \item Infrastructure: capacity model, T1 disk and tape, etc.
 \end{itemize}
-The framework computes the number of data and montecarlo events
+The framework computes the number of data and Monte Carlo events
 per year ({\it EventModel} module) using the LHC parameters and some
 physics information like the required montecarlo/data ratio. The
 functions defined in {\it CPUModel} and {\it StorageModel} modules,
@@ -55,9 +55,12 @@ The module {\it ModelOut} defines functions to create plots and tables.
 
 This first version of the framework elicited strong interest from
 other LHC experiments ad has been agreed as a common basis for future
-development. Generalizing it to all LHC experiments will require
+development. Generalising it to all LHC experiments will require
 rewriting some of the most CMS-specific parts and making the
-parameters schema more flexible.
+parameters schema more flexible. Even if a common framework was not
+finally adopted by all LHC experiments, having them to adopt a similar
+approach will greatly benefit the ability to produce consistent and
+flexible resource estimates.
 
 Besides the inclusion of all LHC experiments, other lines of
 development have been proposed.  For example, the model should be
