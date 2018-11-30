@@ -3,8 +3,9 @@ In order to sensibly plan their activity and estimate their costs,
 experiments need to translate the requirements of their physics
 programmes into computing resources needs. They thus need a modelling
 tool that takes as input the details of the physics activities and the
-features of the computing model and outputs the amount and
-characteristics of the computing resources required.
+features of the computing model and outputs the amount
+and characteristics
+of computing resources required.
 
 Currently, all LHC experiments have their own tools for this task,
 often some complex spreadsheets. Our purpose is to provide a common
@@ -20,14 +21,14 @@ explore potential gains.
 
 \subsection{Current status}
 A first version of the framework \cite{ourresmodel} was obtained by
-forking, refactoring and slightly generalising some code
-used by CMS to estimate HL-LHC requirements~\cite{cmsresmodel}. It is
-a set of modules and scripts that read some inputs files and
-produces plots and tables with the required storage and CPU
-resources. Inputs are loaded hierarchically so that we can easily
-overwrite a generic set of definitions with different special
-scenarios. This is handled by the classes and functions defined in the
-{\it ResourceModel} module. Parameters include:
+forking, refactoring and slightly generalising existing code used by
+CMS to estimate HL-LHC requirements~\cite{cmsresmodel}. It is a set of
+modules and scripts that read some inputs files and produces plots and
+tables with the required storage and CPU resources. Inputs are loaded
+hierarchically so that we can easily overwrite a generic set of
+definitions with different special scenarios. This is handled by the
+classes and functions defined in the {\it ResourceModel}
+module. Parameters include:
 \begin{itemize}
 \item LHC parameters: trigger rates, live fractions, shutdown years, etc.
 \item Computing model: event sizes and processing times, software improvement factors, etc.

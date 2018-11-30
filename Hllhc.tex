@@ -3,7 +3,7 @@ Since the start of the LHC the community constantly improved the
 throughput of the main workflows; however, studies conducted by the
 Understanding Performance team and this working group found several
 areas in which potential improvements could be
-achieved~\cite{improvements}.
+achieved.
 
 \subsection{Compiler and software improvements}
 WLCG sites provide a variety of CPU models and HEP code is usually
@@ -46,12 +46,12 @@ designing new algorithms.
 Gains from new algorithms and the impact of new detector components
 cannot be treated here. As the development of the cellular automaton
 based, HLT track reconstruction code for the ALICE HLT has shown,
-large factors O(100) can in some cases be achieved~\cite{rohr}.
+large factors $O(100)$ can in some cases be achieved~\cite{rohr}.
 
 \subsection{Storage}
-The LHC community has recently agreed to a scenario where managed
-storage is consolidated at a few, very large data centres (the ``data
-lake'') as the most promising to achieve significant cost
+The LHC community has recently agreed to consider a scenario where
+managed storage is consolidated at a few, very large data centres (the
+``data lake'') as the most promising to achieve significant cost
 savings~\cite{cwp}.
 
 For what concerns operational effort, the 2015 WLCG site
@@ -111,9 +111,9 @@ be limited to 5\% when using Xcache as an additional layer
 
 Data redundancy within storage systems is achieved either by
 replication (more performant but expensive) or some form of error
-encoding (cheaper but less performant). Even larger savings can be
+encoding (cheaper but less performant). Even larger savings could be
 achieved by not using data redundancy at all and re-staging from
-tape, or possibly even regenerating, any lost data.
+tape, or even regenerating, any lost data.
 Based on the observed disk failure rate of about 1\% per year in the
 CERN EOS system, the relative total cost
 of storage and computing at CERN (around 4 HS06/TB), the amount of CPU
@@ -154,8 +154,7 @@ mechanisms, but complete jobs are sometimes run up to 20 times before
 successful completion. The overall loss in walltime due to job
 failures is between 10 and 15\%. Improved procedures to make jobs more
 resilient or fail very early can reduce these losses.
-
-Table~\ref{tab:pgain} summarises the different identified potential gains.
+Table~\ref{tab:pgain} summarises the identified potential gains.
 
 \begin{table}
   \centering

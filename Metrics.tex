@@ -27,7 +27,7 @@ by balancing resource usage, and by site managers to optimise their
 expenditure. The balance between the amount of memory per core, the
 disk performance and the memory speed and latency can be optimised on
 the basis of the characterisation of the relevant
-workloads. Figure~\ref{fig:mapping} illustrates this relationship.
+workloads. Figure~\ref{fig:mapping} (left) illustrates this relationship.
 
 Finding such a metric set if far from trivial, given the complexity of
 workloads and their production environments. We started from a
@@ -38,16 +38,17 @@ relevance. Finally we focused on those that can be measured without
 significant interference with the running workload on nodes. A tool,
 PrMon \cite{prmon}, originally developed by ATLAS, has been
 generalised and allows to measure a large set of parameters, using
-information from the operating system. Figure~\ref{fig:mapping} shows,
-as an example, measurements of the memory usage during the execution
-of a workload that performs digitisation with pile-up data and
-reconstruction for Monte Carlo events.  PrMon allows to estimate which
-capabilities of a system limit the throughput and how efficiently
-multi-process and multi-threaded applications use their allocated
-cores. To study the dependencies on latency, bandwidth and memory
-restrictions, another tool has been developed that runs workloads
-repeatedly with increasingly restricted bandwidth, memory and
-increased latency, measuring the throughput for each configuration.
+information from the operating
+system. Figure~\ref{fig:mapping}~(right) shows, as an example,
+measurements of the memory usage during the execution of a workload
+that performs digitisation with pile-up data and reconstruction for
+Monte Carlo events.  PrMon allows to estimate which capabilities of a
+system limit the throughput and how efficiently multi-process and
+multi-threaded applications use their allocated cores. To study the
+dependencies on latency, bandwidth and memory restrictions, another
+tool has been developed that runs workloads repeatedly with
+increasingly restricted bandwidth, memory and increased latency,
+measuring the throughput for each configuration.
 
 Another tool, Trident~\cite{trident}, was developed to provide a
 convenient access to the information contained in CPU hardware
