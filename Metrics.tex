@@ -29,14 +29,14 @@ disk performance and the memory speed and latency can be optimised on
 the basis of the characterisation of the relevant
 workloads. Figure~\ref{fig:mapping} (left) illustrates this relationship.
 
-Finding such a metric set if far from trivial, given the complexity of
+Finding such a metric set is far from trivial, given the complexity of
 workloads and their production environments. We started from a
 representative collection of reference workloads for each experiment.
 Then, we listed several metrics, grouped in various categories (CPU,
 I/O, memory, storage, swap and network) and assessed their
-relevance. Finally we focused on those that can be measured without
+relevance. Finally, we focused on those that can be measured without
 significant interference with the running workload on nodes. A tool,
-PrMon \cite{prmon}, originally developed by ATLAS, has been
+PrMon~\cite{prmon}, originally developed by ATLAS, has been
 generalised and allows to measure a large set of parameters, using
 information from the operating
 system. Figure~\ref{fig:mapping}~(right) shows, as an example,
@@ -74,7 +74,7 @@ latency, bandwidth and memory, will allow to predict the throughput of
 the current workloads under different conditions.
 
 For the resource modelling under future running conditions the
-dependency on the average pile-up has to integrated into the
+dependency on the average pile-up has to be integrated into the
 model. For data size and simulation time, the dependency is at most
 linear. For reconstruction, an extrapolation to HL-LHC levels is
 currently very uncertain and it would be exponential with the current
