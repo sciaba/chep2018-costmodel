@@ -1,7 +1,7 @@
 \section{Site cost estimation}
 The purpose of site cost estimation is to understand and measure, at a
 global scale, what the data centres typical expenses are, and predict
-what they may be in the future. Our approach chosen is to model those
+what they may be in the future. Our approach is to model those
 expenses taking into account the diversity of national contexts
 across sites in terms of funding, procurement procedures, and local
 market conditions.  These results will help experiments plan new
@@ -22,7 +22,7 @@ metric means.
 Those results clearly showed the need of a consolidated and common
 model and method to measure costs across WLCG data centres. For
 example, one may consider the cost of a server providing a given
-capacity, including (or not) the equipement that is shipped with it
+capacity, including (or not) the equipment that is shipped with it
 (rack, switch, adaptor etc.).  One may also include (or not) in a unit
 of capacity of tape storage the investments made in library, drives,
 disk cache etc.\ that are needed for such system to work.  Finally,
@@ -34,13 +34,14 @@ precise definition of the cost-related metrics in order to build a
 reliable model.
 
 \subsection{Next steps}
-An attempt to address data centre resource TCO through cost modeling
-was shown in~\cite{costmodel}. This model assumes that a data centre
-invests each year a constant budget in the following assets:
-batch system, disk storage and tape system capacities. If this
-hypothesis is satisfied (even roughly), one can show that budget ($B$)
-and available capacity ($K$) over time are bound together by a
-quantity ($c^*$) that depends on hardware cost evolution and lifetime:
+An attempt to address the total cost of ownership (TCO)
+through cost modeling was shown in~\cite{costmodel}. This model
+assumes that a data centre invests each year a constant budget in the
+following assets: batch system, disk storage and tape system
+capacities. If this hypothesis is satisfied (even roughly), one can
+show that budget ($B$) and available capacity ($K$) over time are
+bound together by a quantity ($c^*$) that depends on hardware cost
+evolution and lifetime:
 
 \begin{equation}
     B (t) = K (t) \times c^* (t)

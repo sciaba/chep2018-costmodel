@@ -15,18 +15,18 @@ show gains by compiler and link-based optimisations to be around
 20-25\%, including compilation for individual target CPUs, the use of
 Intel’s commercial compiler and the use of feedback-directed
 optimisation (AutoFDO from Google and Intel). Compiler-based
-vectorisation of current production code showed none or minimal
-improvements. Reducing the overhead of shared libraries by building
+vectorisation of current production code showed little or no
+improvement. Reducing the overhead of shared libraries by building
 large libraries resulted in large gains on older architectures (e.g.,
 a 10\% on Ivy Bridge for ATLAS simulation). It has to be noted that
 the use of feedback-directed optimisation requires that the objects
-are build statically, which is not always trivial.
+are built statically, which is not always trivial.
 
 From code profiling and a detailed analysis of the dynamic use of
 memory allocation, it is known that the current code spends up to 25\%
 of the time on memory/object management, due to the frequent creation
 and destruction of small objects~\cite{fomtools}. A 60-90\% of
-allocations exists for less than $100\mu$s and are smaller than 64
+allocations exist for less than $100\mu$s and are smaller than 64
 bytes.  By using better strategies for object management, such as
 object pools and static vectors, this could be reduced to less than
 10\% with relatively minor code refactorisation. At the same time the
@@ -34,13 +34,13 @@ data structure layout can be improved for more efficient utilisation
 of caches and improved memory access.
 
 The current HEP code executes on modern cores only $0.8-1.5$
-instructions per cycle. With the large vector registers provided by
+instructions per cycle (IPC). With the large vector registers provided by
 current CPUs the theoretical limit is above 20 IPC for fully
 vectorised code, and tuned complex code for HPC systems can reach
 about 4 IPC, which can be seen as an upper limit for our code
 base. Approaching this limit requires at least a change of the used
 data structures and a re-implementation or factorisation of our
-algorithms, and therefore it should be taken into consideration when
+algorithms, which should be taken into consideration when
 designing new algorithms.
 
 Gains from new algorithms and the impact of new detector components
@@ -56,13 +56,13 @@ savings~\cite{cwp}.
 
 For what concerns operational effort, the 2015 WLCG site
 survey~\cite{survey} showed that on average Tier-1 sites require 2.5
-FTEs for operating storage and Tier-2 sites 0.75 FTEs, with a weak
+full time equivalent (FTE) for operating storage and \mbox{Tier-2} sites 0.75 FTE, with a weak
 dependence on the amount of storage. By concentrating managed storage
 at a few sites and using only disk caches at
 most sites, one can estimate a decrease of the overall number of FTE
 for storage operations from around 100 to around 60.
 
-An $80\%$ of used disk in WLCG consists of data formats used for
+Nearly $80\%$ of used disk in WLCG consists of data formats used for
 analysis. Data popularity studies show that on average datasets exist
 at $\sim2$ sites and are accessed less than 10 times over a period of
 six months, with most accesses in the first month.  We can argue that
@@ -79,55 +79,59 @@ hierarchical storage: what is gained from replacing some amount of
 disk with tape is partially offset by the need of more tape drives and
 some added complexity in the data migration.
 
-The concentration of data at a few sites requires to limit the impact
+The concentration of data at a few sites requires limiting the impact
 of bandwidth limitations and latency on the workload throughput.  We
 measured the impact of latency on throughput of various workloads,
 showing that for latencies up to 25ms the reduction of throughput can
-be limited to 5\% when using Xcache as an additional layer
+be limited to 5\% when using Xcache~\cite{xcache} as an additional layer
 (table~\ref{tab:latency}).
 \begin{table}
   \centering
-  \caption{ Summary of cache and latency studies}
+  \caption{ Summary of data access studies for different types of
+    workloads, data location with respect to the processing node,
+    corresponding network latency, access method and relative running
+    time with respect to processing local data}
   \label{tab:latency}
   \begin{tabular}{llrlr}
     \hline
-    Workload & Condition & Latency (ms) & Method & Rel. time \\\hline
-    ATLAS Digi-Reco & data on node & 0 & running local & 1.00 \\ 
-    ATLAS Digi-Reco & data remote & ~25 & running local & 1.90 \\ 
-    ATLAS Digi-Reco & data rem., empty cache & ~25 & Xcache & 1.08 \\ 
-    ATLAS Digi-Reco & data rem., pop. cache & ~25 & Xcache & 1.04 \\ 
-    ATLAS Derivation & data on node & 0 & running local & 1.00 \\ 
-    ATLAS Derivation & data on EOS & < 1 & running local  & 1.02 \\ 
-    ATLAS Derivation & data remote & ~25 & running local & 8.30 \\ 
-    ATLAS Derivation & data rem., empty cache & ~25 & Xcache & 1.05 \\ 
-    ATLAS Derivation & data rem., pop. cache & ~25 & Xcache & 1.03 \\
-    CMS Digi-Reco & data local & 0 & added latency & 1.00 \\
-    CMS Digi-Reco & data local & 5 & added latency & 1.01 \\
-    CMS Digi-Reco & data local & 10 & added latency & 1.04 \\
-    CMS Digi-Reco & data local & 20 & added latency & 1.11 \\
-    CMS Digi-Reco & data local & 50 & added latency & 1.24 \\\hline
+    Workload & Data location & Latency (ms) & Access method & Rel. time \\\hline
+%    ATLAS Digi-Reco & on node & 0 & direct & 1.00 \\ 
+    ATLAS Digi-Reco & remote & ~25 & direct & 1.90 \\ 
+    ATLAS Digi-Reco & rem., empty cache & ~25 & cached & 1.08 \\ 
+%    ATLAS Digi-Reco & rem., pop. cache & ~25 & cached & 1.04 \\ 
+%    ATLAS Derivation & on node & 0 & direct & 1.00 \\ 
+%    ATLAS Derivation & close storage & < 1 & direct  & 1.02 \\ 
+    ATLAS Derivation & remote & ~25 & direct & 8.30 \\ 
+    ATLAS Derivation & rem., empty cache & ~25 & cached & 1.05 \\ 
+%    ATLAS Derivation & rem., pop. cache & ~25 & cached & 1.03 \\
+%    CMS Digi-Reco & local & 0 & added latency & 1.00 \\
+%    CMS Digi-Reco & remote, added latency & 5 & direct & 1.01 \\
+    CMS Digi-Reco & remote, added latency& 10 & direct & 1.04 \\
+    CMS Digi-Reco & remote, added latency& 20 & direct & 1.11 \\
+    CMS Digi-Reco & remote, added latency& 50 & direct & 1.24 \\\hline
   \end{tabular}
 \end{table}
 
 Data redundancy within storage systems is achieved either by
 replication (more performant but expensive) or some form of error
 encoding (cheaper but less performant). Even larger savings could be
-achieved by not using data redundancy at all and re-staging from
-tape, or even regenerating, any lost data.
-Based on the observed disk failure rate of about 1\% per year in the
-CERN EOS system, the relative total cost
-of storage and computing at CERN (around 4 HS06/TB), the amount of CPU
-time to generate AOD events ($\sim 850$ HS06$\cdot s$) and their size
-($\sim 400$ kB), one can naively estimate that the computing cost to
+achieved by not using data redundancy at all and re-staging from tape,
+or even regenerating, any lost data.  Based on the observed disk
+failure rate of about 1\% per year in the CERN disk storage, the
+relative total cost of storage and computing at CERN (around 4
+HS06/TB)\footnote{HEPSpec06 is the benchmark commonly used to measure
+  CPU power for HEP applications~\cite{hs06}.}, the amount of CPU time
+to generate AOD events ($\sim 850$ HS06$\cdot s$) and their size
+($\sim 400$ kB), one can estimate that the computing cost to
 re-generate the AOD data lost to disk failures is $\sim 20\%$ of the
-cost to make the storage fully redundant.
+cost to make the storage redundant by full replication.
 
 In reality, most of the times the lost data would be replicated
 elsewhere; one can conservatively estimate that 30-50\% of the disk
-costs can be saved. For this approach to be efficient, the process of
-recreating individual files has to be automated, which is highly
-desirable since other failure modes lead to data loss on a comparable
-scale.
+costs can be saved in this way. For this approach to be efficient, the
+process of recreating individual files has to be automated, which is
+highly desirable since other failure modes (software bugs, human
+errors, etc.) lead to data loss on a comparable scale.
 
 \subsection{Gains from improvements in operations}
 Scheduling inefficiencies in WLCG can arise from a mismatch between
@@ -143,7 +147,7 @@ scheduling inefficiencies stems from breaking the processing chains
 from raw data to data analysis objects into several individual steps
 that exchange data via files: especially when parallel processing
 threads/processes write individual files, the merging steps create
-inefficiencies, as they are single threaded. By using shared writers
+inefficiencies, as they are single threaded. By using asynchronous I/O
 these inefficiencies can be reduced. The overall impact is difficult
 to measure, but from ATLAS step chain activity logs it can be
 estimated to be about 5\%.

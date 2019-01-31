@@ -11,7 +11,7 @@ Currently, all LHC experiments have their own tools for this task,
 often some complex spreadsheets. Our purpose is to provide a common
 framework that could standardise, generalise and possibly improve what
 each experiment does, in its own specific way, today. This framework
-should be as generic and customizable as possible, it should define a
+should be as generic and customisable as possible, it should define a
 schema for the parameters that describe the expected activity and the
 characteristics of the computing model, and provide some standard
 calculations on these parameters.  Besides providing the experiment
@@ -23,7 +23,7 @@ explore potential gains.
 A first version of the framework \cite{ourresmodel} was obtained by
 forking, refactoring and slightly generalising existing code used by
 CMS to estimate HL-LHC requirements~\cite{cmsresmodel}. It is a set of
-modules and scripts that read some inputs files and produces plots and
+modules and scripts that read some input files and produces plots and
 tables with the required storage and CPU resources. Inputs are loaded
 hierarchically so that we can easily overwrite a generic set of
 definitions with different special scenarios. This is handled by the
@@ -33,7 +33,7 @@ module. Parameters include:
 \item LHC parameters: trigger rates, live fractions, shutdown years, etc.
 \item Computing model: event sizes and processing times, software improvement factors, etc.
 \item Storage model: numbers of versions, replicas, etc.
-\item Infrastructure: capacity model, T1 disk and tape, etc.
+\item Infrastructure: capacity model, Tier-1 disk and tape, etc.
 \end{itemize}
 The framework computes the number of data and Monte Carlo events per
 year using the LHC parameters and some physics information like the
