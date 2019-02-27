@@ -87,10 +87,12 @@ be limited to 5\% when using Xcache~\cite{xcache} as an additional layer
 (table~\ref{tab:latency}).
 \begin{table}
   \centering
-  \caption{ Summary of data access studies for different types of
+  \caption{Summary of data access studies for different types of
     workloads, data location with respect to the processing node,
     corresponding network latency, access method and relative running
-    time with respect to processing local data}
+    time with respect to processing local data; the results show that
+    effective latency hiding can be achieved at the application level
+    (e.g. CMS) or at the caching layer (e.g. ATLAS with a cache)}
   \label{tab:latency}
   \begin{tabular}{llrlr}
     \hline
